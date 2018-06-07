@@ -120,7 +120,7 @@ function createViewActions(candidate) {
     btnEdit.className = "btn btn-info";
 
     $(btnEdit).click(function () {
-        if (notCurrentlyBeingEdited(candidate)) {
+        if (isNotCurrentlyBeingEdited(candidate)) {
             current_edit_id = candidate.idcandidato;
             initEditMode(candidate);
         }

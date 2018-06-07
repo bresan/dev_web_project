@@ -8,7 +8,7 @@ function loadCandidates() {
     });
 }
 
-function notCurrentlyBeingEdited(candidate) {
+function isNotCurrentlyBeingEdited(candidate) {
     return current_edit_id != candidate.id;
 }
 
