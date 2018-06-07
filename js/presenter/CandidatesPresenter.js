@@ -1,3 +1,5 @@
+var current_edit_id = -1;
+
 function loadCandidates() {
     getCandidatesRemote(function (data) {
         var candidates = JSON.parse(data);
@@ -6,14 +8,30 @@ function loadCandidates() {
     });
 }
 
+function notCurrentlyBeingEdited(candidate) {
+    return current_edit_id != candidate.id;
+}
+
 function addCandidate(candidate, callback) {
     if (isCandidateValid(candidate)) {
         addCandidateRemote(candidate, function () {
-            callback(SUCCESS_ADDED)
+            callback(states.SUCCESS_ADDED)
         });
     } else {
-        callback(ERROR_INVALID_FORM);
+        callback(states.ERROR_INVALID_FORM);
     }
+}
+
+function removeCandidate(candidate_id, callback) {
+    deleteCandidateRemote(candidate_id, function () {
+        callback(states.SUCCESS_REMOVED)
+    })
+}
+
+function editCandidate(candidate, callback) {
+    editCandidateRemote(candidate, function () {
+        callback(states.SUCCESS_EDITED)
+    });
 }
 
 function isCandidateValid(candidate) {
@@ -23,7 +41,7 @@ function isCandidateValid(candidate) {
 }
 
 function loadProvincesFields() {
-    getProvinces(function(data) {
+    getProvinces(function (data) {
         renderListProvinces(data);
     });
 }

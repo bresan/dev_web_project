@@ -1,38 +1,30 @@
-BASE_URL = "http://andrebordignon.esy.es/php/";
+BASE_ENDPOINT = "http://andrebordignon.esy.es/php/";
 
-URL_ADD = BASE_URL + "incluicandidato.php";
-URL_GET = BASE_URL + "consultacandidatos.php";
-URL_EDIT = BASE_URL + "atualizacandidato.php";
-URL_DELETE = BASE_URL + "deletecandidato.php";
+URL_ADD_CANDIDATE = BASE_ENDPOINT + "incluicandidato.php";
+URL_GET_CANDIDATES = BASE_ENDPOINT + "consultacandidatos.php";
+URL_EDIT_CANDIDATE = BASE_ENDPOINT + "atualizacandidato.php";
+URL_DELETE_CANDIDATE = BASE_ENDPOINT + "deletecandidato.php";
 
 function addCandidateRemote(candidate, callback) {
-    $.post(URL_ADD, candidate, function (data) {
+    $.post(URL_ADD_CANDIDATE, candidate, function (data) {
         callback(data)
     });
 }
 
 function getCandidatesRemote(callback) {
-    $.get(URL_GET, function (data) {
+    $.get(URL_GET_CANDIDATES, function (data) {
         callback(data)
     });
 }
 
 function editCandidateRemote(candidate, callback) {
-    $.ajax({
-        url: URL_EDIT,
-        type: 'PUT',
-        success: function (result) {
-            callback(result)
-        }
+    $.post(URL_EDIT_CANDIDATE, candidate, function (data) {
+        callback(data)
     });
 }
 
 function deleteCandidateRemote(candidateId, callback) {
-    $.ajax({
-        url: URL_DELETE,
-        type: 'DELETE',
-        success: function (result) {
-            callback(result)
-        }
+    $.post(URL_DELETE_CANDIDATE, candidateID, function (data) {
+        callback(data)
     });
 }

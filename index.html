@@ -30,7 +30,6 @@
         <ul class="navbar-nav bd-navbar-nav flex-row">
             <li class="nav-item">
                 <a class="nav-link active" href="/">Cadastrar</a>
-                <a class="nav-link" href="/">Listar</a>
             </li>
         </ul>
     </div>
@@ -61,10 +60,16 @@
         <div class="col-md-8" id="cadastro">
             <form id="formCadastro">
                 <div class="form-group">
+
                     <!-- Nome -->
                     <label for="txtName">Nome do candidato</label>
                     <input type="text" class="form-control" id="txtName" aria-describedby="emailHelp"
                            placeholder="Insira o nome do candidato aqui">
+
+                    <!-- Nome -->
+                    <label for="txtEmail">E-mail do candidato</label>
+                    <input type="text" class="form-control" id="txtEmail" aria-describedby="emailHelp"
+                           placeholder="Insira o e-mail do candidato aqui">
 
                     <!-- Sexo -->
                     <label for="txtSexo">Sexo</label>
@@ -77,9 +82,14 @@
                            placeholder="Insira o nascimento do candidato aqui">
 
                     <!-- CPF -->
-                    <label for="txtCPF">CPF</label>
-                    <input type="text" class="form-control" id="txtCPF" aria-describedby="cpfHelp"
+                    <label for="txtCpf">CPF</label>
+                    <input type="text" class="form-control" id="txtCpf" aria-describedby="cpfHelp"
                            placeholder="Insira o CPF do candidato aqui">
+
+                    <!-- CadJus -->
+                    <label for="txtCadjus">CadJus</label>
+                    <input type="text" class="form-control" id="txtCadjus"
+                           placeholder="Insira o CadJus do candidato aqui">
 
                     <!-- Estado -->
                     <label for="estados">Estado</label>
@@ -91,9 +101,30 @@
                     <label for="cidades">Cidade</label>
                     <select class="form-control" id="cidades">
                     </select>
+
+                    <!-- Rua -->
+                    <label for="txtBairro">Bairro</label>
+                    <input type="text" class="form-control" id="txtBairro"
+                           placeholder="ex: Jardim das Bandeiras">
+
+                    <!-- Rua -->
+                    <label for="txtRua">Rua</label>
+                    <input type="text" class="form-control" id="txtRua"
+                           placeholder="ex: Rua dos Perdizes">
+
+                    <!-- Número -->
+                    <label for="txtNumero">Número</label>
+                    <input type="text" class="form-control" id="txtNumero"
+                           placeholder="ex: 164">
+
+                    <!-- Senha -->
+                    <label for="txtSenha">Senha (para futuras alterações)</label>
+                    <input type="password" class="form-control" id="txtSenha">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <div id="edit"></div>
+
+                <button id="submit" type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
         </div>
         <div class="col-md-2">
@@ -102,9 +133,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <span id="spanStatus"></span>
 
             <table id="candidates-table">
@@ -119,10 +148,9 @@
                     <td>CPF</td>
                     <td>CadJus</td>
                     <td>E-mail</td>
+                    <td>Ação</td>
                 </tr>
             </table>
-        </div>
-        <div class="col-md-2">
         </div>
     </div>
 </main>
