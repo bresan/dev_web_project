@@ -24,7 +24,7 @@ function editCandidateRemote(candidate, callback) {
 }
 
 function deleteCandidateRemote(candidateId, callback) {
-    $.post(URL_DELETE_CANDIDATE, candidateID, function (data) {
+    $.post(URL_DELETE_CANDIDATE, candidateId, function (data) {
         callback(data)
     });
 }
