@@ -101,6 +101,46 @@ function resetForm() {
     $("#submit").show();
 }
 
+function initRemoveCandidateListener(candidate) {
+    $("#remove").click(function () {
+        if (passwordIsCorrect(candidate.senha)) {
+            var candidate_data = getCandidateData();
+            candidate_data.idcandidato = candidate.idcandidato;
+            removeCandidate(candidate_data.idcandidato, function (status) {
+                // update table too
+                removeCandidateTable(candidate_data.idcandidato);
+                showDefaultMessage("Removido com sucesso");
+                resetForm();
+            });
+        } else {
+            showDefaultMessage("Senha incorreta!");
+        }
+    });
+}
+
+function initEditCandidateListener(candidate) {
+    $("#edit").click(function () {
+        if (passwordIsCorrect(candidate.senha)) {
+            var candidate_data = getCandidateData();
+            candidate_data.idcandidato = candidate.idcandidato;
+            editCandidate(candidate_data, function (status) {
+                // update table too
+                updateCandidateTableValue(candidate_data);
+                showDefaultMessage("Editado com sucesso");
+            });
+        } else {
+            showDefaultMessage("Senha incorreta!");
+        }
+    });
+}
+
+function initCancelEditListener() {
+    $("#cancel").click(function () {
+        // check if there are any changes in the form and alert user¬
+        resetForm();
+    });
+}
+
 function initEditMode(candidate) {
     $("#txtName").val(candidate.nome);
     $("#txtEmail").val(candidate.email);
@@ -121,38 +161,9 @@ function initEditMode(candidate) {
     $("#remove").show();
     $("#cancel").show();
 
-    $("#edit").click(function () {
-        if (passwordIsCorrect(candidate.senha)) {
-            var candidate_data = getCandidateData();
-            candidate_data.idcandidato = candidate.idcandidato;
-            editCandidate(candidate_data, function (status) {
-                // update table too
-                updateCandidateTableValue(candidate_data);
-                showDefaultMessage("Editado com sucesso");
-            });
-        } else {
-            showDefaultMessage("Senha incorreta!");
-        }
-    });
-
-    $("#remove").click(function () {
-        if (passwordIsCorrect(candidate.senha)) {
-            var candidate_data = getCandidateData();
-            candidate_data.idcandidato = candidate.idcandidato;
-            removeCandidate(candidate_data.idcandidato, function (status) {
-                // update table too
-                removeCandidateTable(candidate_data.idcandidato);
-                showDefaultMessage("Removido com sucesso");
-                resetForm();
-            });
-        } else {
-            showDefaultMessage("Senha incorreta!");
-        }
-    });
-
-    $("#cancel").click(function () {
-        // check if there are any changes in the form and alert user
-    });
+    initEditCandidateListener(candidate);
+    initRemoveCandidateListener(candidate);
+    initCancelEditListener();
 }
 
 function passwordIsCorrect(password) {
@@ -242,13 +253,11 @@ function makeCandidateTableItem(candidate) {
 
 
 function getCandidateData() {
-    var cpf = $("#txtCpf").val()
-    console.log('cpf: ', cpf);
     // get selected
     var candidate = {
         nome: $("#txtName").val(),
         sexo: $("#txtSexo").val(),
-        dataNasc: $("#txtNascimento").val(),
+        datanasc: $("#txtNascimento").val(),
         rua: $("#txtRua").val(),
         numero: $("#txtNumero").val(),
         cidade: $("#cidades option:selected").text(),
@@ -284,6 +293,26 @@ function processAddCandidateResponse(RETURN_CODE, candidate) {
     }
 }
 
+function makeFieldInvalid(field) {
+    $(field).attr("class", "form-control is-invalid");
+}
+
+function makeFieldValid(field) {
+    $(field).attr("class", "form-control is-valid");
+}
+
+function initEmailListener() {
+    var txtEmail = $("#txtEmail");
+
+    $(txtEmail).on('change keyup paste', function () {
+        if (!isEmailValid(txtEmail.val())) {
+            makeFieldInvalid(txtEmail);
+        } else {
+            makeFieldValid(txtEmail);
+        }
+    });
+}
+
 /**
  * This function is used to set up the listeners for our form to add new candidates.
  *
@@ -297,6 +326,8 @@ function initFormListener() {
             processAddCandidateResponse(RETURN_CODE, candidate);
         });
     });
+
+    initEmailListener();
 }
 
 function hideEditMode() {

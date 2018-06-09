@@ -36,7 +36,12 @@ function editCandidate(candidate, callback) {
 }
 
 function isCandidateValid(candidate) {
-    if (!candidate.nome) return false;
+    if (!isNameValid(candidate.name)) return false;
+    if (!isCadjusValid(candidate.cadjus)) return false;
+    if (!isCpfValid(candidate.cpf)) return false;
+    if (!isEmailValid(candidate.email)) return false;
+    if (!isBirthdayValid(candidate.datanasc)) return false;
+    // if (!isAgeValid(candidate.age?)) return false
 
     return true
 }
