@@ -4,6 +4,7 @@ function loadCandidates() {
     getCandidatesRemote(function (data) {
         var candidates = JSON.parse(data);
 
+        // check for empty response..
         renderListCandidates(candidates)
     });
 }

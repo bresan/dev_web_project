@@ -1,6 +1,8 @@
 /** Html items id's **/
 ID_LIST_CANDIDATES = "candidates-list";
 
+// first thing to do :-)
+hideEditMode();
 
 states = {
     /** Response values from presenter **/
@@ -11,13 +13,30 @@ states = {
     SUCCESS_REMOVED: 4
 };
 
+function addCandidateToTable(candidate) {
+    var table = document.getElementById("candidates-table");
+    var item = makeCandidateTableItem(candidate);
+    table.appendChild(item);
+}
+
 /**
  * This function is used to render our received candidates list into the screen
  */
 function renderListCandidates(candidates) {
-    for (const candidate of candidates) {
-        addCandidateTableItem(candidate);
+    if (isIterable(candidates)) {
+        for (const candidate of candidates) {
+            addCandidateToTable(candidate);
+        }
+    } else {
+        showDefaultMessage("Não há candidatos cadastrados!")
     }
+}
+
+function isIterable(obj) {
+    if (obj == null) {
+        return false;
+    }
+    return typeof obj[Symbol.iterator] === 'function';
 }
 
 /**
@@ -65,7 +84,21 @@ function createColumn() {
 
 
 function updateCandidateTableValue(candidate) {
+    $('table#candidates-table tr#' + candidate.idcandidato).replaceWith(makeCandidateTableItem(candidate));
+}
 
+function removeCandidateTable(id_candidato) {
+    $('table#candidates-table tr#' + id_candidato).remove();
+}
+
+function resetForm() {
+    current_edit_id = -1;
+
+    $('#formCadastro')[0].reset();
+    $("#edit").hide();
+    $("#cancel").hide();
+    $("#remove").hide();
+    $("#submit").show();
 }
 
 function initEditMode(candidate) {
@@ -83,15 +116,12 @@ function initEditMode(candidate) {
     // fix loading city
     $("#cidades").val(candidate.cidade);
 
-    var btnEdit = document.createElement("input");
-    btnEdit.type = "button";
-    btnEdit.value = "Editar";
-    btnEdit.className = "btn btn-info";
-
     $("#submit").hide();
-    $("#edit").append(btnEdit);
+    $("#edit").show();
+    $("#remove").show();
+    $("#cancel").show();
 
-    $(btnEdit).click(function () {
+    $("#edit").click(function () {
         if (passwordIsCorrect(candidate.senha)) {
             var candidate_data = getCandidateData();
             candidate_data.idcandidato = candidate.idcandidato;
@@ -103,6 +133,25 @@ function initEditMode(candidate) {
         } else {
             showDefaultMessage("Senha incorreta!");
         }
+    });
+
+    $("#remove").click(function () {
+        if (passwordIsCorrect(candidate.senha)) {
+            var candidate_data = getCandidateData();
+            candidate_data.idcandidato = candidate.idcandidato;
+            removeCandidate(candidate_data.idcandidato, function (status) {
+                // update table too
+                removeCandidateTable(candidate_data.idcandidato);
+                showDefaultMessage("Removido com sucesso");
+                resetForm();
+            });
+        } else {
+            showDefaultMessage("Senha incorreta!");
+        }
+    });
+
+    $("#cancel").click(function () {
+        // check if there are any changes in the form and alert user
     });
 }
 
@@ -135,10 +184,9 @@ function createViewActions(candidate) {
  * Renders a single item into the candidate table
  * @param candidate the item to be rendered
  */
-function addCandidateTableItem(candidate) {
-    var table = document.getElementById("candidates-table");
-
+function makeCandidateTableItem(candidate) {
     var row = document.createElement("tr");
+    row.setAttribute("id", candidate.idcandidato);
 
     var colName = createColumn();
     var colSexo = createColumn();
@@ -189,7 +237,7 @@ function addCandidateTableItem(candidate) {
     row.appendChild(colEmail);
     row.appendChild(colActions);
 
-    table.appendChild(row);
+    return row;
 }
 
 
@@ -227,7 +275,7 @@ function processAddCandidateResponse(RETURN_CODE, candidate) {
             showDefaultMessage("Erro ao comunicar-se com o servidor. Por favor, tente novamente mais tarde.");
             break;
         case states.SUCCESS_ADDED:
-            addCandidateTableItem(candidate);
+            addCandidateToTable(candidate);
             break;
 
         default:
@@ -249,6 +297,12 @@ function initFormListener() {
             processAddCandidateResponse(RETURN_CODE, candidate);
         });
     });
+}
+
+function hideEditMode() {
+    $("#edit").hide();
+    $("#remove").hide();
+    $("#cancel").hide();
 }
 
 /**

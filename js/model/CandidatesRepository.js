@@ -3,7 +3,7 @@ BASE_ENDPOINT = "http://andrebordignon.esy.es/php/";
 URL_ADD_CANDIDATE = BASE_ENDPOINT + "incluicandidato.php";
 URL_GET_CANDIDATES = BASE_ENDPOINT + "consultacandidatos.php";
 URL_EDIT_CANDIDATE = BASE_ENDPOINT + "atualizacandidato.php";
-URL_DELETE_CANDIDATE = BASE_ENDPOINT + "deletecandidato.php";
+URL_DELETE_CANDIDATE = BASE_ENDPOINT + "deletacandidato.php";
 
 function addCandidateRemote(candidate, callback) {
     $.post(URL_ADD_CANDIDATE, candidate, function (data) {
@@ -24,7 +24,12 @@ function editCandidateRemote(candidate, callback) {
 }
 
 function deleteCandidateRemote(candidateId, callback) {
-    $.post(URL_DELETE_CANDIDATE, candidateId, function (data) {
+
+    var data = {
+        idcandidato: candidateId
+    };
+
+    $.post(URL_DELETE_CANDIDATE, data, function (data) {
         callback(data)
     });
 }
