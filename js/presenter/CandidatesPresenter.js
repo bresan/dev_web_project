@@ -77,7 +77,7 @@ var CandidatesPresenter = {
      */
     loadProvincesFields() {
         LocationRepository.getProvinces(function (data) {
-            CandidateFormView.renderListProvinces(data);
+            AddCandidate.renderListProvinces(data);
         });
     }
 };

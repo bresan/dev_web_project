@@ -1,5 +1,5 @@
 // first thing to do, so on top of file :-)
-CandidateFormView.resetForm();
+AddCandidate.resetForm();
 
 var CandidatesView = {
     view: {},
@@ -23,10 +23,10 @@ var CandidatesView = {
     renderListCandidates(candidates) {
         if (isIterable(candidates)) {
             for (const candidate of candidates) {
-                CandidateTable.addCandidateToTable(candidate);
+                CandidateList.addCandidateToTable(candidate);
             }
         } else {
-            CandidateFormView.showDefaultMessage(CandidatesView.messages.MSG_EMPTY_CANDIDATES)
+            AddCandidate.showDefaultMessage(CandidatesView.messages.MSG_EMPTY_CANDIDATES)
         }
     },
 
@@ -38,20 +38,20 @@ var CandidatesView = {
     processAddCandidateResponse(RETURN_CODE, candidate) {
         switch (RETURN_CODE) {
             case CandidatesView.states.ERROR_INVALID_FORM:
-                CandidateFormView.showDefaultMessage(CandidatesView.messages.MSG_INVALID_FORM);
+                AddCandidate.showDefaultMessage(CandidatesView.messages.MSG_INVALID_FORM);
                 break;
 
             case CandidatesView.states.ERROR_SERVER_OFF:
-                CandidateFormView.showDefaultMessage(CandidatesView.messages.MSG_SERVER_OFF);
+                AddCandidate.showDefaultMessage(CandidatesView.messages.MSG_SERVER_OFF);
                 break;
 
             case CandidatesView.states.SUCCESS_ADDED:
-                CandidateTable.addCandidateToTable(candidate);
+                CandidateList.addCandidateToTable(candidate);
                 AnimationUtils.moveToBottom();
                 break;
 
             default:
-                CandidateFormView.showDefaultMessage(CandidatesView.messages.MSG_ERROR_DEFAULT);
+                AddCandidate.showDefaultMessage(CandidatesView.messages.MSG_ERROR_DEFAULT);
                 break;
         }
     },

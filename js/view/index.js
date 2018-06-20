@@ -4,5 +4,5 @@
 $(document).ready(function () {
     CandidatesPresenter.loadCandidates();
     CandidatesPresenter.loadProvincesFields();
-    CandidateFormView.initFormListener();
+    AddCandidate.initFormListener();
 });
