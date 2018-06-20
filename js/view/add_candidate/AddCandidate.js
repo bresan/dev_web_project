@@ -17,6 +17,7 @@ var AddCandidate = {
         txtCadjus: $("#txtCadjus"),
         txtEmail: $("#txtEmail"),
         txtSenha: $("#txtSenha"),
+        txtSenhaConfirma: $("#txtSenhaConfirma"),
 
         txtStatus: $("#spanStatus")
     },
@@ -68,6 +69,70 @@ var AddCandidate = {
         });
     },
 
+    /**
+     * This function is used to initialize the CadJus listener, mostly to validate the received input
+     */
+    initCadjusListener() {
+        AddCandidate.view.txtCadjus.on('change keyup paste', function () {
+            if (!isCadjusValid(AddCandidate.view.txtCadjus.val())) {
+                makeFieldInvalid(AddCandidate.view.txtCadjus);
+            } else {
+                makeFieldValid(AddCandidate.view.txtCadjus);
+            }
+        });
+    },
+
+    /**
+     * This function is used to initialize the CPF field listener, mostly to validate the received input
+     */
+    initCpfListener() {
+        AddCandidate.view.txtCpf.on('change keyup paste', function () {
+            if (!isCpfValid(AddCandidate.view.txtCpf.val())) {
+                makeFieldInvalid(AddCandidate.view.txtCpf);
+            } else {
+                makeFieldValid(AddCandidate.view.txtCpf);
+            }
+        });
+    },
+
+    /**
+     * This function is used to initialize the name field listener, mostly to validate the received input
+     */
+    initNameListener() {
+        AddCandidate.view.txtNome.on('change keyup paste', function () {
+            if (!isNameValid(AddCandidate.view.txtNome.val())) {
+                makeFieldInvalid(AddCandidate.view.txtNome);
+            } else {
+                makeFieldValid(AddCandidate.view.txtNome);
+            }
+        });
+    },
+
+    /**
+     * This function is used to initialize the birth field listener, mostly to validate the received input
+     */
+    initBirthdayListener() {
+        AddCandidate.view.txtDataNasc.on('change keyup paste', function () {
+            if (!isBirthdayValid(AddCandidate.view.txtDataNasc.val())) {
+                makeFieldInvalid(AddCandidate.view.txtDataNasc);
+            } else {
+                makeFieldValid(AddCandidate.view.txtDataNasc);
+            }
+        });
+    },
+
+    /**
+     * This function is used to initialize the birth field listener, mostly to validate the received input
+     */
+    initPasswordListener() {
+        AddCandidate.view.txtSenhaConfirma.on('change keyup paste', function () {
+            if (!isPasswordMatching(AddCandidate.view.txtSenha.val(), AddCandidate.view.txtSenhaConfirma.val())) {
+                makeFieldInvalid(AddCandidate.view.txtSenhaConfirma);
+            } else {
+                makeFieldValid(AddCandidate.view.txtSenhaConfirma);
+            }
+        });
+    },
 
     /**
      * This function is used to set up the listeners for our form to add new candidates.
@@ -84,6 +149,11 @@ var AddCandidate = {
         });
 
         AddCandidate.initEmailListener();
+        AddCandidate.initNameListener();
+        AddCandidate.initCadjusListener();
+        AddCandidate.initCpfListener();
+        AddCandidate.initBirthdayListener();
+        AddCandidate.initPasswordListener();
     }
 
 };

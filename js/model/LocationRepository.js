@@ -1,4 +1,4 @@
-PATH_DATA = './data/cidades_estados.json';
+PATH_DATA = 'http://demo0080297.mockable.io/cidades_estados';
 
 /**
  * This object is used to retrieve all the information related to the available locations to pick
@@ -9,8 +9,8 @@ var LocationRepository = {
      * @param callback
      */
     getProvinces(callback) {
-        $.getJSON(PATH_DATA, function (data) {
+        $.get(PATH_DATA, function(data) {
             callback(data);
-        })
+        });
     }
 };

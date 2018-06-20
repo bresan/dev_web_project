@@ -25,7 +25,6 @@ var CandidatesPresenter = {
      * @param candidate the candidate to be validated
      */
     isCandidateValid(candidate) {
-        console.log(candidate);
         if (!isNameValid(candidate.nome)) return false;
         if (!isCadjusValid(candidate.cadjus)) return false;
         if (!isCpfValid(candidate.cpf)) return false;
