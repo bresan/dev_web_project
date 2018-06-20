@@ -45,7 +45,7 @@
 </header>
 
 <main class="bd-masthead" id="content" role="main">
-
+    <div id="top"></div>
     <div class="row">
         <div class="col-md-2">
         </div>
@@ -71,7 +71,7 @@
                     <!-- Data de nascimento -->
                     <label for="txtNascimento">Nascimento</label>
                     <input type="text" class="form-control" id="txtNascimento"
-                           placeholder="Insira o nascimento do candidato aqui">
+                           placeholder="2000/01/31">
 
                     <!-- CPF -->
                     <label for="txtCpf">CPF</label>
@@ -127,36 +127,50 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
             <span id="spanStatus"></span>
 
-            <table id="candidates-table">
+            <table id="candidates-table" class="table">
                 <tr>
-                    <td>Nome</td>
-                    <td>Sexo</td>
-                    <td>Nascimento</td>
-                    <td>Rua</td>
-                    <td>Número</td>
-                    <td>Cidade</td>
-                    <td>Estado</td>
-                    <td>CPF</td>
-                    <td>CadJus</td>
-                    <td>E-mail</td>
-                    <td>Ação</td>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Nascimento</th>
+                    <th scope="col">Rua</th>
+                    <th scope="col">Número</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">CadJus</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Ação</th>
                 </tr>
             </table>
         </div>
+
+        <div class="col-md-1">
+        </div>
     </div>
+
+    <div id="bottom"></div>
 </main>
 <!--JQuery-->
 <script src="js/jquery-3.3.1.min.js"></script>
 
 <!-- Scripts -->
 <script src="js/utils/Validator.js"></script>
+<script src="js/utils/FieldUtils.js"></script>
+<script src="js/utils/IterableUtils.js"></script>
+<script src="js/utils/AnimationUtils.js"></script>
 <script src="js/model/LocationRepository.js"></script>
 <script src="js/model/CandidatesRepository.js"></script>
 <script src="js/presenter/CandidatesPresenter.js"></script>
+<script src="js/view/CandidateFormView.js"></script>
+<script src="js/view/CandidateTable.js"></script>
 <script src="js/view/CandidatesView.js"></script>
+<script src="js/view/index.js"></script>
 
 </body>
 

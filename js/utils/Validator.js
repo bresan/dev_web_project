@@ -1,4 +1,3 @@
-
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
 }
@@ -13,7 +12,8 @@ function isEmailValid(email) {
     return re.test(String(email).toLowerCase());
 }
 
-function isAgeValid(age) {
+function isAgeValid(birthday) {
+    var age = calculateAge(birthday);
     return age > 18;
 }
 
@@ -22,14 +22,19 @@ function isCpfValid(cpf) {
     return true;
 }
 
+function calculateAge(birthday) { // birthday is a date
+    var birthDayDate = Date(birthday);
+    var ageDifMs = Date.now() - birthDayDate.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
 function isBirthdayValid(date) {
-    // TODO
-    return true;
+    return isAgeValid(date);
 }
 
 function isCadjusValid(cadjus) {
-    // TODO
-    return true;
+    if (cadjus >= 1 && cadjus <= 5000) return true;
 }
 
 function isPasswordMatching(pass1, pass2) {

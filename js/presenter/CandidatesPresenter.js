@@ -1,53 +1,84 @@
 var current_edit_id = -1;
 
-function loadCandidates() {
-    getCandidatesRemote(function (data) {
-        var candidates = JSON.parse(data);
+var CandidatesPresenter = {
 
-        // check for empty response..
-        renderListCandidates(candidates)
-    });
-}
-
-function isNotCurrentlyBeingEdited(candidate) {
-    return current_edit_id != candidate.id;
-}
-
-function addCandidate(candidate, callback) {
-    if (isCandidateValid(candidate)) {
-        addCandidateRemote(candidate, function () {
-            callback(states.SUCCESS_ADDED)
+    /**
+     * Function used to load all candidates
+     */
+    loadCandidates() {
+        CandidatesRepository.getCandidatesRemote(function (data) {
+            var candidates = JSON.parse(data);
+            CandidatesView.renderListCandidates(candidates);
         });
-    } else {
-        callback(states.ERROR_INVALID_FORM);
+    },
+
+    /**
+     * Function to check if the candidate is not already being edited
+     * @param candidate the candidate to be checked
+     */
+    isNotCurrentlyBeingEdited(candidate) {
+        return current_edit_id !== candidate.id;
+    },
+
+    /**
+     * Function used to validate a candidate fields
+     * @param candidate the candidate to be validated
+     */
+    isCandidateValid(candidate) {
+        console.log(candidate);
+        if (!isNameValid(candidate.nome)) return false;
+        if (!isCadjusValid(candidate.cadjus)) return false;
+        if (!isCpfValid(candidate.cpf)) return false;
+        if (!isEmailValid(candidate.email)) return false;
+        //if (!isBirthdayValid(candidate.datanasc)) return false;
+
+        return true
+    },
+
+    /**
+     * Function used when action to add a candidate is called
+     * @param candidate the candidate to be added
+     * @param callback the response
+     */
+    addCandidate(candidate, callback) {
+        if (CandidatesPresenter.isCandidateValid(candidate)) {
+            CandidatesRepository.addCandidateRemote(candidate, function () {
+                callback(CandidatesView.states.SUCCESS_ADDED)
+            });
+        } else {
+            callback(CandidatesView.states.ERROR_INVALID_FORM);
+        }
+    },
+
+    /**
+     * Function used when action to remove a candidate is called
+     * @param candidate the candidate to be removed
+     * @param callback the response
+     */
+    removeCandidate(candidate_id, callback) {
+        CandidatesRepository.deleteCandidateRemote(candidate_id, function () {
+            callback(CandidatesView.states.SUCCESS_REMOVED)
+        })
+    },
+
+    /**
+     * Function used when action to edit a candidate is called
+     * @param candidate the candidate to be edited
+     * @param callback the response
+     */
+    editCandidate(candidate, callback) {
+        CandidatesRepository.editCandidateRemote(candidate, function () {
+            callback(CandidatesView.states.SUCCESS_EDITED)
+        });
+    },
+
+    /**
+     * Function used to load the location fields
+     */
+    loadProvincesFields() {
+        LocationRepository.getProvinces(function (data) {
+            CandidateFormView.renderListProvinces(data);
+        });
     }
-}
+};
 
-function removeCandidate(candidate_id, callback) {
-    deleteCandidateRemote(candidate_id, function () {
-        callback(states.SUCCESS_REMOVED)
-    })
-}
-
-function editCandidate(candidate, callback) {
-    editCandidateRemote(candidate, function () {
-        callback(states.SUCCESS_EDITED)
-    });
-}
-
-function isCandidateValid(candidate) {
-    if (!isNameValid(candidate.name)) return false;
-    if (!isCadjusValid(candidate.cadjus)) return false;
-    if (!isCpfValid(candidate.cpf)) return false;
-    if (!isEmailValid(candidate.email)) return false;
-    if (!isBirthdayValid(candidate.datanasc)) return false;
-    // if (!isAgeValid(candidate.age?)) return false
-
-    return true
-}
-
-function loadProvincesFields() {
-    getProvinces(function (data) {
-        renderListProvinces(data);
-    });
-}
